@@ -1,8 +1,13 @@
-@import "tailwindcss";
+@import "tailwindcss/preflight";
+@tailwind utilities;
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 @theme inline {
@@ -19,8 +24,38 @@
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  body {
+    @apply bg-transparent text-black dark:bg-black dark:text-white;
+  }
+}
+
+@layer utilities {
+  .prose h1 {
+    @apply text-3xl font-bold mb-6 text-black dark:text-white;
+  }
+  
+  .prose h2 {
+    @apply text-2xl font-bold mb-4 mt-8 text-black dark:text-white;
+  }
+  
+  .prose h3 {
+    @apply text-xl font-bold mb-3 mt-6 text-black dark:text-white;
+  }
+  
+  .prose p {
+    @apply mb-4 text-black/80 dark:text-white/80;
+  }
+  
+  .prose ul {
+    @apply mb-4 list-disc pl-5;
+  }
+  
+  .prose li {
+    @apply mb-1 text-black/80 dark:text-white/80;
+  }
+  
+  section {
+    @apply scroll-mt-16;
+  }
 }

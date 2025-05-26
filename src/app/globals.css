@@ -1,61 +1,100 @@
-@import "tailwindcss/preflight";
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700&family=Playfair+Display:wght@400;500;700&display=swap');
+@import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --navy-primary: #1e2a4a;
+    --navy-dark: #162038;
+    --navy-light: #2a3a5a;
+    --gold: #f5cda1;
+    --gold-accent: #e6b886;
+    --gold-light: #fef3e2;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Playfair Display', 'Noto Serif TC', serif;
+    background-color: var(--navy-primary);
+    color: var(--gold);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
   }
 }
 
-@layer base {
-  body {
-    @apply bg-transparent text-black dark:bg-black dark:text-white;
+@layer components {
+  .font-chinese {
+    font-family: 'Noto Serif TC', serif;
+  }
+
+  .font-primary {
+    font-family: 'Playfair Display', serif;
+  }
+
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold-accent), transparent);
+    margin: 2rem 0;
+  }
+
+  .hover-gold-glow:hover {
+    box-shadow: 0 0 20px rgba(245, 205, 161, 0.3);
+    transition: box-shadow 0.3s ease;
   }
 }
 
 @layer utilities {
-  .prose h1 {
-    @apply text-3xl font-bold mb-6 text-black dark:text-white;
+  .bg-navy-primary {
+    background-color: var(--navy-primary) !important;
   }
-  
-  .prose h2 {
-    @apply text-2xl font-bold mb-4 mt-8 text-black dark:text-white;
+
+  .bg-navy-dark {
+    background-color: var(--navy-dark) !important;
   }
-  
-  .prose h3 {
-    @apply text-xl font-bold mb-3 mt-6 text-black dark:text-white;
+
+  .bg-navy-light {
+    background-color: var(--navy-light) !important;
   }
-  
-  .prose p {
-    @apply mb-4 text-black/80 dark:text-white/80;
+
+  .text-gold {
+    color: var(--gold) !important;
   }
-  
-  .prose ul {
-    @apply mb-4 list-disc pl-5;
+
+  .text-gold-accent {
+    color: var(--gold-accent) !important;
   }
-  
-  .prose li {
-    @apply mb-1 text-black/80 dark:text-white/80;
+
+  .border-gold-accent {
+    border-color: var(--gold-accent) !important;
   }
-  
+
+  .hover\:bg-gold-accent:hover {
+    background-color: var(--gold-accent) !important;
+  }
+
+  .hover\:text-navy-dark:hover {
+    color: var(--navy-dark) !important;
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out;
+  }
+
   section {
-    @apply scroll-mt-16;
+    scroll-margin-top: 4rem;
   }
 }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+} 

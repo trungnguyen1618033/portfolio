@@ -1,20 +1,17 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
-  title: "Personal Portfolio",
-  description: "My personal portfolio website showcasing my skills and projects",
+  title: "Nguyen Phi Huyen - Senior Associate | Oriental International Law Firm",
+  description: "Professional portfolio of Nguyen Phi Huyen (阮 非 玄), Senior Associate at Oriental International Law Firm specializing in international law, academic translation, and legal services.",
+  keywords: ["legal", "lawyer", "Oriental International Law Firm", "Vietnam", "international law", "senior associate", "legal services"],
+  authors: [{ name: "Nguyen Phi Huyen" }],
+  openGraph: {
+    title: "Nguyen Phi Huyen - Senior Associate",
+    description: "Professional portfolio of Nguyen Phi Huyen, Senior Associate at Oriental International Law Firm",
+    type: "website",
+    locale: "vi_VN",
+  },
 };
 
 export default function RootLayout({
@@ -23,10 +20,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 dark:bg-gray-950`}
-      >
+    <html lang="vi">
+      <body className="antialiased">
         {children}
       </body>
     </html>

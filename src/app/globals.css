@@ -83,8 +83,27 @@
     animation: fadeInUp 0.8s ease-out;
   }
 
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
   section {
     scroll-margin-top: 4rem;
+  }
+
+  /* Smooth section transitions */
+  section {
+    transition: all 0.3s ease-in-out;
+  }
+
+  /* Enhanced hover effects */
+  .hover-scale:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
   }
 }
 
@@ -97,4 +116,46 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(245, 205, 161, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(245, 205, 161, 0.6);
+  }
+}
+
+/* Enhanced scroll behavior */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 2rem;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--navy-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gold-accent);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
 } 

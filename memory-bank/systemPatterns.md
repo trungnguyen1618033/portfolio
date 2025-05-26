@@ -6,6 +6,9 @@ Single-page application (SPA) with server-side rendering (SSR) via Next.js App R
 ## Component Structure
 ```
 Components/
+├── ui/
+│   ├── Navigation.tsx (floating dots navigation)
+│   └── BackToTopButton.tsx (scroll to top)
 ├── Hero/
 │   ├── HeroSection.tsx (name, title, portrait)
 │   └── ChineseCharacters.tsx (阮 非 玄 display)
@@ -22,8 +25,7 @@ Components/
 │   ├── BlogPreview.tsx
 │   └── PostCard.tsx
 └── Footer/
-    ├── SocialLinks.tsx
-    └── BackToTop.tsx
+    └── SocialLinks.tsx
 ```
 
 ## Design Patterns
@@ -47,12 +49,13 @@ Components/
 
 ### Section Layout
 ```
-[Hero Section - Full viewport height]
-[Company Info - Horizontal layout with logo]
-[Qualifications - Timeline/Card grid]
-[Interests - Two-column layout]
-[Blog Preview - Card grid]
-[Footer - Centered content]
+[Hero Section - Full viewport height with scroll indicator]
+[Company Info - Full viewport height with centered card]
+[Qualifications - Full viewport height with timeline]
+[Interests - Min viewport height with two-column layout]
+[Blog Preview - Full viewport height with card grid]
+[Footer - Standard height with centered content]
+[Navigation - Floating dots (desktop only)]
 ```
 
 ### Color System Implementation

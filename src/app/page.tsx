@@ -1,4 +1,3 @@
-import Image from "next/image";
 import BackToTopButton from "./components/ui/BackToTopButton";
 import Navigation from "./components/ui/Navigation";
 

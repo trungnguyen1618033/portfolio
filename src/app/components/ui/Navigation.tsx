@@ -33,7 +33,7 @@ const Navigation = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [sections]);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);

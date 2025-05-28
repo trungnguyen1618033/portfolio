@@ -460,7 +460,7 @@ export default function PortfolioContent() {
         <div className="max-w-4xl mx-auto text-center z-10">
           <div className="mb-8">
             {/* Professional Portrait */}
-            <div className="w-72 h-96 md:w-80 md:h-[420px] lg:w-96 lg:h-[480px] mx-auto mb-8 rounded-xl border-3 border-gold-accent shadow-2xl overflow-hidden hover:shadow-3xl transition-all duration-300 hover:scale-105">
+            <div className="w-72 h-96 md:w-80 md:h-[420px] lg:w-96 lg:h-[480px] mx-auto mb-8 rounded-xl border-3 border-gold-accent shadow-2xl overflow-hidden hover:shadow-3xl transition-all duration-300 hover:scale-105 bg-navy-primary relative">
               <Image 
                 src="/portrait.jpg" 
                 alt="Nguyen Phi Huyen - Senior Associate at Oriental International Law Firm"

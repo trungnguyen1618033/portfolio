@@ -77,6 +77,33 @@ const sampleBlogs = [
   }
 ];
 
+const sampleActivities = [
+  {
+    id: 1,
+    title: "Hội thảo chuyên môn",
+    description: "Tham gia tích cực các hội thảo về pháp luật quốc tế, đầu tư nước ngoài và thương mại điện tử. Đóng góp ý kiến chuyên môn trong các phiên thảo luận về xu hướng pháp lý mới và tác động đến doanh nghiệp Việt Nam.",
+    category: "activity",
+    details: "Thường xuyên tham gia các hội thảo do Hiệp hội Luật sư Việt Nam, VCCI và các tổ chức quốc tế tổ chức. Đặc biệt quan tâm đến các chủ đề về FDI, M&A và compliance.",
+    achievements: ["Diễn giả tại 5+ hội thảo", "Tham gia 20+ sự kiện chuyên môn", "Networking với 100+ chuyên gia"]
+  },
+  {
+    id: 2,
+    title: "Khóa học nâng cao",
+    description: "Liên tục học hỏi và nâng cao chuyên môn thông qua các khóa học về luật quốc tế, arbitration và corporate law từ các tổ chức uy tín trong và ngoài nước.",
+    category: "activity", 
+    details: "Hoàn thành các khóa học từ Singapore International Arbitration Centre (SIAC), Vietnam International Arbitration Centre (VIAC) và nhiều tổ chức đào tạo chuyên nghiệp khác.",
+    achievements: ["10+ chứng chỉ chuyên môn", "200+ giờ đào tạo/năm", "Top 10% học viên xuất sắc"]
+  },
+  {
+    id: 3,
+    title: "Bài viết chuyên môn",
+    description: "Xuất bản các bài viết chuyên môn về lĩnh vực pháp lý trên các tạp chí luật, blog và platform chuyên nghiệp để chia sẻ kiến thức và kinh nghiệm với cộng đồng.",
+    category: "activity",
+    details: "Thường xuyên viết bài về các chủ đề nóng trong luật doanh nghiệp, luật đầu tư và giải quyết tranh chấp. Các bài viết được đăng tải trên Vietnam Law & Legal Forum, Legal500 và LinkedIn.",
+    achievements: ["15+ bài viết được publish", "5000+ lượt đọc/tháng", "Featured trong 3 tạp chí luật"]
+  }
+];
+
 export default function PortfolioContent() {
   const { openModal } = useModalContext();
 
@@ -90,6 +117,10 @@ export default function PortfolioContent() {
 
   const handleBlogClick = (blog: any) => {
     openModal('blog', blog);
+  };
+
+  const handleActivityClick = (activity: any) => {
+    openModal('interest', activity);  // Using interest modal for activities since they have similar structure
   };
 
   return (
@@ -291,18 +322,19 @@ export default function PortfolioContent() {
                 Hoạt động nổi bật
               </h3>
               <div className="space-y-6">
-                <div className="bg-navy-light rounded-xl p-6 hover-gold-glow shadow-lg">
-                  <h4 className="text-gold-accent font-bold mb-3 text-lg">Hội thảo chuyên môn</h4>
-                  <p className="text-gold">Tham gia các hội thảo về pháp luật quốc tế</p>
-                </div>
-                <div className="bg-navy-light rounded-xl p-6 hover-gold-glow shadow-lg">
-                  <h4 className="text-gold-accent font-bold mb-3 text-lg">Khóa học nâng cao</h4>
-                  <p className="text-gold">Liên tục học hỏi và nâng cao chuyên môn</p>
-                </div>
-                <div className="bg-navy-light rounded-xl p-6 hover-gold-glow shadow-lg">
-                  <h4 className="text-gold-accent font-bold mb-3 text-lg">Bài viết chuyên môn</h4>
-                  <p className="text-gold">Xuất bản các bài viết về lĩnh vực pháp lý</p>
-                </div>
+                {sampleActivities.map((activity) => (
+                  <div 
+                    key={activity.id}
+                    className="bg-navy-light rounded-xl p-6 hover-gold-glow shadow-lg cursor-pointer transform hover:scale-105 transition-all duration-300"
+                    onClick={() => handleActivityClick(activity)}
+                  >
+                    <h4 className="text-gold-accent font-bold mb-3 text-lg">{activity.title}</h4>
+                    <p className="text-gold">{activity.description.substring(0, 100)}...</p>
+                    <div className="mt-3 text-gold-accent text-sm opacity-75">
+                      Click để xem chi tiết →
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

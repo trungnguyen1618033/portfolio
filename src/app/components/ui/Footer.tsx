@@ -25,8 +25,16 @@ export default function Footer() {
               </svg>
             </a>
           </div>
-          <div className="mt-8 md:mt-0">
-            <p className="text-center md:text-right text-sm text-gray-500 dark:text-gray-400">
+          <div className="mt-8 md:mt-0 text-center md:text-right">
+            <div className="mb-2">
+              <a 
+                href="/admin/login" 
+                className="text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200"
+              >
+                Admin
+              </a>
+            </div>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               © {currentYear} My Portfolio. All rights reserved.
             </p>
           </div>

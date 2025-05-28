@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { AuthProvider } from "../lib/auth-context";
 
 export const metadata: Metadata = {
   title: "Nguyen Phi Huyen - Senior Associate | Oriental International Law Firm",

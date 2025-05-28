@@ -79,6 +79,67 @@
     color: var(--navy-dark) !important;
   }
 
+  /* Admin interface colors */
+  .bg-navy-600 {
+    background-color: #374151 !important;
+  }
+
+  .bg-navy-700 {
+    background-color: #1f2937 !important;
+  }
+
+  .bg-navy-800 {
+    background-color: #111827 !important;
+  }
+
+  .bg-navy-900 {
+    background-color: #0f172a !important;
+  }
+
+  .text-navy-600 {
+    color: #374151 !important;
+  }
+
+  .text-navy-700 {
+    color: #1f2937 !important;
+  }
+
+  .border-navy-500 {
+    border-color: #6b7280 !important;
+  }
+
+  .ring-navy-500 {
+    --tw-ring-color: #6b7280 !important;
+  }
+
+  .focus\:ring-navy-500:focus {
+    --tw-ring-color: #6b7280 !important;
+  }
+
+  .focus\:border-navy-500:focus {
+    border-color: #6b7280 !important;
+  }
+
+  .hover\:bg-navy-50:hover {
+    background-color: #f9fafb !important;
+  }
+
+  .hover\:bg-navy-700:hover {
+    background-color: #1f2937 !important;
+  }
+
+  .bg-gold-200 {
+    background-color: #fde68a !important;
+  }
+
+  .bg-gold-300 {
+    background-color: var(--gold-accent) !important;
+  }
+
+  .text-gold-300 {
+    color: var(--gold-accent) !important;
+  }
+
   .animate-fade-in-up {
     animation: fadeInUp 0.8s ease-out;
   }

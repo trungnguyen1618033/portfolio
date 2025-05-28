@@ -6,7 +6,7 @@ import { AuthSession, User, LoginCredentials } from './types';
 const AUTH_CONFIG = {
   // In production, these should be environment variables
   ADMIN_USERNAME: process.env.NEXT_PUBLIC_ADMIN_USERNAME || 'admin',
-  ADMIN_PASSWORD: process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'portfolio2024',
+  ADMIN_PASSWORD: process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'admin',
   SESSION_DURATION: 24 * 60 * 60 * 1000, // 24 hours
   TOKEN_SECRET: process.env.NEXT_PUBLIC_TOKEN_SECRET || 'portfolio-secret-key'
 };

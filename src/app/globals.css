@@ -153,7 +153,8 @@
   }
 
   section {
-    scroll-margin-top: 4rem;
+    scroll-margin-top: 2rem;
+    scroll-snap-align: start;
   }
 
   /* Smooth section transitions */
@@ -165,6 +166,32 @@
   .hover-scale:hover {
     transform: scale(1.05);
     transition: transform 0.3s ease;
+  }
+
+  /* Navigation dot styles */
+  .nav-dot {
+    position: relative;
+    z-index: 1000;
+  }
+
+  .nav-dot::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(245, 205, 161, 0.1);
+    transition: all 0.3s ease;
+    z-index: -1;
+  }
+
+  .nav-dot:hover::before {
+    width: 24px;
+    height: 24px;
+    background: rgba(245, 205, 161, 0.2);
   }
 }
 

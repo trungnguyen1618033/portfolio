@@ -15,25 +15,58 @@ const Navigation = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + 100;
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
       
-      for (const section of sections) {
+      // Get all sections with their positions
+      const sectionPositions = sections.map(section => {
         const element = document.getElementById(section.id);
         if (element) {
-          const offsetTop = element.offsetTop;
-          const offsetBottom = offsetTop + element.offsetHeight;
-          
-          if (scrollPosition >= offsetTop && scrollPosition < offsetBottom) {
-            setActiveSection(section.id);
-            break;
-          }
+          const rect = element.getBoundingClientRect();
+          const top = rect.top + scrollY;
+          const height = rect.height;
+          return {
+            id: section.id,
+            top,
+            bottom: top + height,
+            center: top + height / 2
+          };
         }
+        return null;
+      }).filter(Boolean);
+
+      // Find which section is currently most visible
+      let currentSection = 'hero';
+      
+      // Check from top to bottom
+      for (const section of sectionPositions) {
+        if (section && scrollY >= section.top - windowHeight / 3) {
+          currentSection = section.id;
+        }
+      }
+
+      setActiveSection(currentSection);
+    };
+
+    // Add scroll listener with throttling
+    let ticking = false;
+    const throttledScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [sections]);
+    window.addEventListener('scroll', throttledScroll);
+    
+    // Call once to set initial state
+    handleScroll();
+    
+    return () => window.removeEventListener('scroll', throttledScroll);
+  }, []);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -43,20 +76,26 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="fixed right-8 top-1/2 transform -translate-y-1/2 z-50 hidden lg:block">
-      <div className="bg-navy-light/80 backdrop-blur-sm rounded-full p-4 border border-gold-accent/30">
-        <ul className="space-y-4">
+    <nav className="fixed right-4 md:right-8 top-1/2 transform -translate-y-1/2 z-50">
+      <div className="bg-navy-light/95 backdrop-blur-md rounded-full p-3 md:p-4 border-2 border-gold-accent/60 shadow-2xl">
+        <ul className="space-y-3">
           {sections.map((section) => (
             <li key={section.id}>
               <button
                 onClick={() => scrollToSection(section.id)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 block ${
+                className={`w-5 h-5 md:w-4 md:h-4 rounded-full transition-all duration-500 block relative group nav-dot ${
                   activeSection === section.id
-                    ? 'bg-gold-accent scale-125'
-                    : 'bg-gold-accent/40 hover:bg-gold-accent/70'
+                    ? 'bg-gold scale-125 shadow-xl shadow-gold/50 ring-2 ring-gold/50'
+                    : 'bg-gold-accent/60 hover:bg-gold-accent hover:scale-110'
                 }`}
                 title={section.label}
-              />
+                aria-label={section.label}
+              >
+                {/* Tooltip */}
+                <span className="absolute right-8 top-1/2 transform -translate-y-1/2 bg-navy-dark text-gold text-xs py-2 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none shadow-lg border border-gold-accent/30">
+                  {section.label}
+                </span>
+              </button>
             </li>
           ))}
         </ul>

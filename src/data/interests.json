@@ -1,0 +1,41 @@
+[
+  {
+    "id": 1,
+    "title": "Pháp lý quốc tế",
+    "description": "Nghiên cứu sâu về pháp luật quốc tế, các hiệp định thương mại và xu hướng pháp lý mới. Đặc biệt quan tâm đến pháp luật đầu tư nước ngoài và giải quyết tranh chấp thương mại.",
+    "category": "skill",
+    "relatedSkills": ["International Law", "Commercial Law", "Dispute Resolution"],
+    "benefits": [
+      "Nâng cao kiến thức chuyên môn",
+      "Theo kịp xu hướng pháp lý toàn cầu",
+      "Tư vấn hiệu quả cho khách hàng quốc tế"
+    ],
+    "personalImpact": "Giúp tôi hiểu sâu hơn về môi trường pháp lý quốc tế và ứng dụng vào công việc tại Oriental International Law Firm."
+  },
+  {
+    "id": 2,
+    "title": "Dịch thuật học thuật",
+    "description": "Chuyên dịch các tài liệu pháp lý, hợp đồng và văn bản học thuật từ tiếng Anh sang tiếng Việt và ngược lại. Focus vào terminology chính xác và ngữ cảnh pháp lý.",
+    "category": "skill",
+    "relatedSkills": ["Legal Translation", "Academic Writing", "Cross-cultural Communication"],
+    "benefits": [
+      "Đảm bảo tính chính xác trong dịch thuật pháp lý",
+      "Tăng giá trị dịch vụ cho khách hàng đa quốc gia",
+      "Phát triển khả năng ngôn ngữ chuyên ngành"
+    ],
+    "personalImpact": "Passion này giúp tôi bridge gap giữa các hệ thống pháp luật và văn hóa khác nhau."
+  },
+  {
+    "id": 3,
+    "title": "Thiền định",
+    "description": "Thực hành thiền định hàng ngày để duy trì sự cân bằng trong cuộc sống và công việc. Áp dụng mindfulness vào việc xử lý các vấn đề phức tạp trong lĩnh vực pháp lý.",
+    "category": "hobby",
+    "relatedSkills": ["Stress Management", "Focus & Concentration", "Emotional Intelligence"],
+    "benefits": [
+      "Giảm stress trong môi trường làm việc high-pressure",
+      "Tăng khả năng tập trung và ra quyết định",
+      "Cải thiện sức khỏe tinh thần và thể chất"
+    ],
+    "personalImpact": "Thiền định giúp tôi maintain work-life balance và tiếp cận công việc với tâm thế bình tĩnh, sáng suốt."
+  }
+] 

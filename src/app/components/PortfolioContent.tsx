@@ -1,127 +1,454 @@
 'use client';
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import BackToTopButton from "./ui/BackToTopButton";
 import Navigation from "./ui/Navigation";
 import Footer from "./ui/Footer";
 import { useModalContext } from "../../lib/modal-context";
-
-// Sample data - sẽ được thay thế bằng real data từ admin system
-const sampleEducation = [
-  {
-    id: 1,
-    degree: "Associate Degree of Business English",
-    institution: "Thu Duc College Of Technology",
-    year: "2020-2022",
-    description: "Chuyên ngành Tiếng Anh Thương mại với focus vào giao tiếp kinh doanh quốc tế, đàm phán và dịch thuật chuyên ngành."
-  },
-  {
-    id: 2,
-    degree: "IELTS Certificate",
-    institution: "IELTS Official Test Center",
-    year: "2022",
-    description: "Chứng chỉ IELTS với band score cao, demonstrating proficiency in English for academic and professional purposes."
-  },
-  {
-    id: 3,
-    degree: "Chứng chỉ chuyên môn khác",
-    institution: "Các tổ chức đào tạo pháp lý",
-    year: "2023-2024",
-    description: "Các khóa học và chứng chỉ về pháp luật quốc tế, hợp đồng thương mại và tư vấn pháp lý."
-  }
-];
-
-const sampleInterests = [
-  {
-    id: 1,
-    title: "Pháp lý quốc tế",
-    description: "Nghiên cứu sâu về pháp luật quốc tế, các hiệp định thương mại và xu hướng pháp lý mới. Đặc biệt quan tâm đến pháp luật đầu tư nước ngoài và giải quyết tranh chấp thương mại.",
-    category: "skill"
-  },
-  {
-    id: 2,
-    title: "Dịch thuật học thuật",
-    description: "Chuyên dịch các tài liệu pháp lý, hợp đồng và văn bản học thuật từ tiếng Anh sang tiếng Việt và ngược lại. Focus vào terminology chính xác và ngữ cảnh pháp lý.",
-    category: "skill"
-  },
-  {
-    id: 3,
-    title: "Thiền định",
-    description: "Thực hành thiền định hàng ngày để duy trì sự cân bằng trong cuộc sống và công việc. Áp dụng mindfulness vào việc xử lý các vấn đề phức tạp trong lĩnh vực pháp lý.",
-    category: "hobby"
-  }
-];
-
-const sampleBlogs = [
-  {
-    id: 1,
-    title: "Xu hướng pháp lý quốc tế 2024",
-    excerpt: "Phân tích các xu hướng mới trong lĩnh vực pháp lý quốc tế và tác động đến Việt Nam",
-    content: "Trong năm 2024, lĩnh vực pháp lý quốc tế đang chứng kiến nhiều thay đổi quan trọng...\n\nCác xu hướng chính bao gồm:\n\n1. Số hóa trong các thủ tục pháp lý\n2. Tăng cường hợp tác quốc tế trong giải quyết tranh chấp\n3. Phát triển luật công nghệ và AI\n4. Bảo vệ môi trường trong luật thương mại\n\nNhững thay đổi này sẽ có tác động sâu rộng đến cách thức hoạt động của các doanh nghiệp và luật sư tại Việt Nam.",
-    tags: ["international-law", "technology", "2024-trends"],
-    publishDate: "2024-12-15",
-    lastModified: "2024-12-15",
-    published: true,
-    featured: true
-  },
-  {
-    id: 2,
-    title: "Dịch thuật pháp lý: Thách thức và cơ hội",
-    excerpt: "Những khó khăn và cơ hội trong lĩnh vực dịch thuật tài liệu pháp lý chuyên môn",
-    content: "Dịch thuật pháp lý là một lĩnh vực đòi hỏi sự chính xác cao và hiểu biết sâu về hệ thống pháp luật...\n\nCác thách thức chính:\n\n1. Terminology chuyên ngành phức tạp\n2. Sự khác biệt giữa các hệ thống pháp luật\n3. Yêu cầu về độ chính xác tuyệt đối\n4. Thời gian gấp rút trong các vụ việc\n\nTuy nhiên, đây cũng là lĩnh vực có nhiều cơ hội phát triển nghề nghiệp cho những người có đam mê và năng lực.",
-    tags: ["translation", "legal", "career"],
-    publishDate: "2024-12-10",
-    lastModified: "2024-12-10",
-    published: true,
-    featured: false
-  }
-];
-
-const sampleActivities = [
-  {
-    id: 1,
-    title: "Hội thảo chuyên môn",
-    description: "Tham gia tích cực các hội thảo về pháp luật quốc tế, đầu tư nước ngoài và thương mại điện tử. Đóng góp ý kiến chuyên môn trong các phiên thảo luận về xu hướng pháp lý mới và tác động đến doanh nghiệp Việt Nam.",
-    category: "activity",
-    details: "Thường xuyên tham gia các hội thảo do Hiệp hội Luật sư Việt Nam, VCCI và các tổ chức quốc tế tổ chức. Đặc biệt quan tâm đến các chủ đề về FDI, M&A và compliance.",
-    achievements: ["Diễn giả tại 5+ hội thảo", "Tham gia 20+ sự kiện chuyên môn", "Networking với 100+ chuyên gia"]
-  },
-  {
-    id: 2,
-    title: "Khóa học nâng cao",
-    description: "Liên tục học hỏi và nâng cao chuyên môn thông qua các khóa học về luật quốc tế, arbitration và corporate law từ các tổ chức uy tín trong và ngoài nước.",
-    category: "activity", 
-    details: "Hoàn thành các khóa học từ Singapore International Arbitration Centre (SIAC), Vietnam International Arbitration Centre (VIAC) và nhiều tổ chức đào tạo chuyên nghiệp khác.",
-    achievements: ["10+ chứng chỉ chuyên môn", "200+ giờ đào tạo/năm", "Top 10% học viên xuất sắc"]
-  },
-  {
-    id: 3,
-    title: "Bài viết chuyên môn",
-    description: "Xuất bản các bài viết chuyên môn về lĩnh vực pháp lý trên các tạp chí luật, blog và platform chuyên nghiệp để chia sẻ kiến thức và kinh nghiệm với cộng đồng.",
-    category: "activity",
-    details: "Thường xuyên viết bài về các chủ đề nóng trong luật doanh nghiệp, luật đầu tư và giải quyết tranh chấp. Các bài viết được đăng tải trên Vietnam Law & Legal Forum, Legal500 và LinkedIn.",
-    achievements: ["15+ bài viết được publish", "5000+ lượt đọc/tháng", "Featured trong 3 tạp chí luật"]
-  }
-];
+import { SupabaseDataManager } from "../../lib/supabaseDataManager";
+import type { Education, Interest, Activity, Blog } from "../../lib/supabaseDataManager";
 
 export default function PortfolioContent() {
   const { openModal } = useModalContext();
+  
+  // State for dynamic data
+  const [education, setEducation] = useState<Education[]>([]);
+  const [interests, setInterests] = useState<Interest[]>([]);
+  const [activities, setActivities] = useState<Activity[]>([]);
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const handleEducationClick = (education: any) => {
+  // Load data from Supabase on component mount
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setLoading(true);
+        
+        // Start timer for minimum loading time
+        const minLoadTime = 4000; // 4 seconds minimum
+        const startTime = Date.now();
+        
+        // Fetch all data in parallel
+        const [educationData, interestsData, activitiesData, blogsData] = await Promise.all([
+          SupabaseDataManager.getEducation(),
+          SupabaseDataManager.getInterests(),
+          SupabaseDataManager.getActivities(),
+          SupabaseDataManager.getPublishedBlogs() // Only published blogs for public view
+        ]);
+
+        setEducation(educationData);
+        setInterests(interestsData);
+        setActivities(activitiesData);
+        setBlogs(blogsData);
+        
+        // Ensure minimum loading time for smooth animation
+        const elapsed = Date.now() - startTime;
+        const remainingTime = Math.max(0, minLoadTime - elapsed);
+        
+        setTimeout(() => {
+          setLoading(false);
+        }, remainingTime);
+        
+      } catch (error) {
+        console.error('Error loading data:', error);
+        // Still show loading for minimum time even on error
+        setTimeout(() => {
+          setLoading(false);
+        }, 4000);
+      }
+    };
+
+    loadData();
+  }, []);
+
+  const handleEducationClick = (education: Education) => {
     openModal('education', education);
   };
 
-  const handleInterestClick = (interest: any) => {
+  const handleInterestClick = (interest: Interest) => {
     openModal('interest', interest);
   };
 
-  const handleBlogClick = (blog: any) => {
+  const handleBlogClick = (blog: Blog) => {
     openModal('blog', blog);
   };
 
-  const handleActivityClick = (activity: any) => {
+  const handleActivityClick = (activity: Activity) => {
     openModal('interest', activity);  // Using interest modal for activities since they have similar structure
   };
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="bg-navy-primary min-h-screen flex items-center justify-center relative overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-20 left-20 w-32 h-32 border border-gold-accent rounded-full animate-pulse"></div>
+          <div className="absolute bottom-20 right-20 w-24 h-24 border border-gold-accent rounded-full animate-pulse"></div>
+          <div className="absolute top-1/2 left-10 w-16 h-16 border border-gold-accent rounded-full animate-pulse"></div>
+        </div>
+
+        <div className="text-center z-10">
+          {/* Book opening animation */}
+          <div 
+            className="relative w-80 h-60 mx-auto mb-12"
+            style={{
+              animation: 'bookFloat 3s ease-in-out infinite'
+            }}
+          >
+            {/* Book spine */}
+            <div 
+              className="absolute left-1/2 top-0 w-3 h-full bg-gradient-to-b from-gold-accent via-gold to-gold-accent rounded-sm transform -translate-x-1/2 shadow-2xl border border-gold/20"
+              style={{
+                animation: 'spineGlow 2s ease-in-out infinite'
+              }}
+            ></div>
+            
+            {/* Left page */}
+            <div 
+              className="absolute left-0 top-0 w-1/2 h-full bg-gradient-to-r from-gold/15 to-gold/8 rounded-l-lg border border-gold-accent/40 shadow-2xl transform-gpu origin-right"
+              style={{
+                animation: 'bookPageLeft 3s ease-in-out infinite',
+                transformStyle: 'preserve-3d'
+              }}
+            >
+              <div className="p-6 h-full flex flex-col justify-center items-center">
+                <div className="text-center space-y-4">
+                  {/* Vietnamese Name */}
+                  <div className="mb-8">
+                    <h4 className="font-primary text-xl text-gold-accent font-bold tracking-wide">
+                      Nguyễn Phi Huyền
+                    </h4>
+                    <div className="w-16 h-0.5 bg-gold-accent/60 mx-auto mt-2 rounded"></div>
+                  </div>
+                  
+                  {/* Decorative lines */}
+                  <div className="space-y-3 opacity-50">
+                    <div className="w-20 h-0.5 bg-gold-accent/40 rounded mx-auto animate-pulse"></div>
+                    <div className="w-24 h-0.5 bg-gold-accent/30 rounded mx-auto animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+                    <div className="w-16 h-0.5 bg-gold-accent/25 rounded mx-auto animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+                  </div>
+                  
+                  {/* Subtitle */}
+                  <div className="mt-6 text-center">
+                    <p className="text-xs text-gold-accent/70 font-light tracking-widest">
+                      PORTFOLIO
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Right page */}
+            <div 
+              className="absolute right-0 top-0 w-1/2 h-full bg-gradient-to-l from-gold/15 to-gold/8 rounded-r-lg border border-gold-accent/40 shadow-2xl transform-gpu origin-left"
+              style={{
+                animation: 'bookPageRight 3s ease-in-out infinite',
+                transformStyle: 'preserve-3d'
+              }}
+            >
+              <div className="p-6 h-full flex flex-col justify-center items-center">
+                <div className="text-center space-y-4">
+                  {/* Chinese Name */}
+                  <div className="mb-8">
+                    <h4 className="font-chinese text-2xl text-gold-accent font-bold tracking-wider">
+                      阮斐玄
+                    </h4>
+                    <div className="w-16 h-0.5 bg-gold-accent/60 mx-auto mt-2 rounded"></div>
+                  </div>
+                  
+                  {/* Decorative lines */}
+                  <div className="space-y-3 opacity-50">
+                    <div className="w-22 h-0.5 bg-gold-accent/40 rounded mx-auto animate-pulse" style={{ animationDelay: '0.1s' }}></div>
+                    <div className="w-18 h-0.5 bg-gold-accent/30 rounded mx-auto animate-pulse" style={{ animationDelay: '0.3s' }}></div>
+                    <div className="w-24 h-0.5 bg-gold-accent/25 rounded mx-auto animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+                  </div>
+                  
+                  {/* Subtitle in Chinese */}
+                  <div className="mt-6 text-center">
+                    <p className="text-xs text-gold-accent/70 font-light tracking-widest font-chinese">
+                      作品集
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Book pages binding */}
+            <div className="absolute left-1/2 top-2 w-1 h-[calc(100%-16px)] bg-gradient-to-b from-transparent via-gold/30 to-transparent transform -translate-x-1/2 animate-pulse"></div>
+            
+            {/* Book shadow */}
+            <div className="absolute -bottom-2 left-4 right-4 h-4 bg-gradient-to-r from-transparent via-black/20 to-transparent rounded-full blur-sm"></div>
+          </div>
+
+          {/* Text content */}
+          <div 
+            className="space-y-6"
+            style={{
+              animation: 'fadeInUp 1s ease-out 2s both'
+            }}
+          >
+            <h3 className="font-primary text-4xl text-gold-accent font-bold">
+              Đang dệt nên bức tranh sự nghiệp...
+            </h3>
+            <p className="text-gold text-xl font-light tracking-wide">
+              Chuẩn bị nội dung chuyên nghiệp cho bạn
+            </p>
+            
+            {/* Loading dots */}
+            <div className="flex justify-center space-x-3 mt-10">
+              <div className="w-3 h-3 bg-gold-accent rounded-full animate-bounce"></div>
+              <div className="w-3 h-3 bg-gold-accent rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+              <div className="w-3 h-3 bg-gold-accent rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+            </div>
+          </div>
+
+          {/* Progress indicator */}
+          <div 
+            className="mt-16 w-80 mx-auto"
+            style={{
+              animation: 'fadeInUp 1s ease-out 2.5s both'
+            }}
+          >
+            {/* Animated progress bar with wave effect */}
+            <div className="relative h-2 bg-navy-light rounded-full overflow-hidden shadow-inner">
+              <div 
+                className="absolute inset-0 bg-gradient-to-r from-gold-accent via-gold to-gold-accent rounded-full shadow-sm"
+                style={{
+                  animation: 'loadingProgress 2s ease-in-out infinite'
+                }}
+              ></div>
+              {/* Wave effect overlay */}
+              <div 
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent rounded-full"
+                style={{
+                  animation: 'waveEffect 1.5s ease-in-out infinite'
+                }}
+              ></div>
+            </div>
+            
+            {/* Spinning circles around progress */}
+            <div className="relative mt-6">
+              <div 
+                className="absolute -top-8 left-0 w-4 h-4 border-2 border-gold-accent rounded-full"
+                style={{
+                  animation: 'orbitLeft 3s linear infinite'
+                }}
+              ></div>
+              <div 
+                className="absolute -top-8 right-0 w-4 h-4 border-2 border-gold-accent rounded-full"
+                style={{
+                  animation: 'orbitRight 3s linear infinite reverse'
+                }}
+              ></div>
+            </div>
+            
+            <p className="text-gold-accent/70 text-sm mt-3 font-light tracking-widest">
+              LOADING...
+            </p>
+          </div>
+
+          {/* Floating particles */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div 
+              className="absolute top-1/4 left-1/4 w-2 h-2 bg-gold-accent/30 rounded-full"
+              style={{
+                animation: 'floatParticle1 4s ease-in-out infinite'
+              }}
+            ></div>
+            <div 
+              className="absolute top-1/3 right-1/4 w-1.5 h-1.5 bg-gold-accent/40 rounded-full"
+              style={{
+                animation: 'floatParticle2 5s ease-in-out infinite'
+              }}
+            ></div>
+            <div 
+              className="absolute bottom-1/4 left-1/3 w-1 h-1 bg-gold-accent/50 rounded-full"
+              style={{
+                animation: 'floatParticle3 3.5s ease-in-out infinite'
+              }}
+            ></div>
+            <div 
+              className="absolute bottom-1/3 right-1/3 w-2.5 h-2.5 bg-gold-accent/20 rounded-full"
+              style={{
+                animation: 'floatParticle4 4.5s ease-in-out infinite'
+              }}
+            ></div>
+          </div>
+        </div>
+
+        {/* Custom styles */}
+        <style jsx>{`
+          @keyframes bookFloat {
+            0%, 100% { 
+              transform: translateY(0px) scale(1); 
+              opacity: 0.9;
+            }
+            50% { 
+              transform: translateY(-10px) scale(1.02); 
+              opacity: 1;
+            }
+          }
+
+          @keyframes bookPageLeft {
+            0% { 
+              transform: perspective(1000px) rotateY(-25deg);
+              opacity: 0.7;
+            }
+            50% { 
+              transform: perspective(1000px) rotateY(-5deg);
+              opacity: 0.9;
+            }
+            100% { 
+              transform: perspective(1000px) rotateY(-25deg);
+              opacity: 0.7;
+            }
+          }
+
+          @keyframes bookPageRight {
+            0% { 
+              transform: perspective(1000px) rotateY(25deg);
+              opacity: 0.7;
+            }
+            50% { 
+              transform: perspective(1000px) rotateY(5deg);
+              opacity: 0.9;
+            }
+            100% { 
+              transform: perspective(1000px) rotateY(25deg);
+              opacity: 0.7;
+            }
+          }
+
+          @keyframes spineGlow {
+            0%, 100% { 
+              box-shadow: 0 0 10px rgba(229, 184, 134, 0.5);
+            }
+            50% { 
+              box-shadow: 0 0 25px rgba(229, 184, 134, 0.8), 0 0 35px rgba(229, 184, 134, 0.4);
+            }
+          }
+
+          @keyframes loadingProgress {
+            0% { 
+              transform: translateX(-100%);
+              opacity: 0.6;
+            }
+            50% { 
+              transform: translateX(50%);
+              opacity: 1;
+            }
+            100% { 
+              transform: translateX(200%);
+              opacity: 0.6;
+            }
+          }
+
+          @keyframes waveEffect {
+            0% {
+              transform: translateX(-100%);
+            }
+            50% {
+              transform: translateX(100%);
+            }
+            100% {
+              transform: translateX(-100%);
+            }
+          }
+
+          @keyframes orbitLeft {
+            0% {
+              transform: rotate(0deg);
+            }
+            100% {
+              transform: rotate(360deg);
+            }
+          }
+
+          @keyframes orbitRight {
+            0% {
+              transform: rotate(0deg);
+            }
+            100% {
+              transform: rotate(-360deg);
+            }
+          }
+
+          @keyframes pulse {
+            0% {
+              transform: scale(1);
+            }
+            50% {
+              transform: scale(1.2);
+            }
+            100% {
+              transform: scale(1);
+            }
+          }
+
+          @keyframes floatParticle1 {
+            0% {
+              transform: translate(0, 0);
+            }
+            50% {
+              transform: translate(10px, 10px);
+            }
+            100% {
+              transform: translate(0, 0);
+            }
+          }
+
+          @keyframes floatParticle2 {
+            0% {
+              transform: translate(0, 0);
+            }
+            50% {
+              transform: translate(-10px, -10px);
+            }
+            100% {
+              transform: translate(0, 0);
+            }
+          }
+
+          @keyframes floatParticle3 {
+            0% {
+              transform: translate(0, 0);
+            }
+            50% {
+              transform: translate(5px, -5px);
+            }
+            100% {
+              transform: translate(0, 0);
+            }
+          }
+
+          @keyframes floatParticle4 {
+            0% {
+              transform: translate(0, 0);
+            }
+            50% {
+              transform: translate(-5px, 5px);
+            }
+            100% {
+              transform: translate(0, 0);
+            }
+          }
+
+          @keyframes fadeInUp {
+            from {
+              opacity: 0;
+              transform: translateY(30px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+        `}</style>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-navy-primary">
@@ -133,12 +460,12 @@ export default function PortfolioContent() {
         <div className="max-w-4xl mx-auto text-center z-10">
           <div className="mb-8">
             {/* Professional Portrait */}
-            <div className="w-56 h-72 mx-auto mb-8 rounded-lg border-2 border-gold-accent shadow-2xl overflow-hidden">
+            <div className="w-72 h-96 md:w-80 md:h-[420px] lg:w-96 lg:h-[480px] mx-auto mb-8 rounded-xl border-3 border-gold-accent shadow-2xl overflow-hidden hover:shadow-3xl transition-all duration-300 hover:scale-105">
               <Image 
                 src="/portrait.jpg" 
                 alt="Nguyen Phi Huyen - Senior Associate at Oriental International Law Firm"
-                width={224}
-                height={288}
+                width={384}
+                height={480}
                 className="w-full h-full object-cover"
                 priority
               />
@@ -260,24 +587,31 @@ export default function PortfolioContent() {
               <div className="absolute left-8 top-0 bottom-0 w-1 bg-gradient-to-b from-gold-accent to-gold rounded-full"></div>
 
               {/* Education items - Now clickable */}
-              {sampleEducation.map((education, index) => (
-                <div key={education.id} className="relative pl-24 pb-12">
-                  <div className="absolute left-6 w-6 h-6 bg-gold-accent rounded-full border-4 border-navy-dark shadow-lg"></div>
-                  <div 
-                    className="bg-navy-light rounded-xl p-8 hover-gold-glow shadow-xl cursor-pointer transform hover:scale-105 transition-all duration-300"
-                    onClick={() => handleEducationClick(education)}
-                  >
-                    <h3 className="font-primary text-2xl font-bold text-gold-accent mb-3">
-                      {education.degree}
-                    </h3>
-                    <p className="text-gold mb-3 text-lg">{education.institution}</p>
-                    <div className="text-gold-accent font-semibold">{education.year}</div>
-                    <div className="mt-4 text-gold-accent text-sm opacity-75">
-                      Click để xem chi tiết →
+              {education.length > 0 ? (
+                education.map((education, index) => (
+                  <div key={education.id} className="relative pl-24 pb-12">
+                    <div className="absolute left-6 w-6 h-6 bg-gold-accent rounded-full border-4 border-navy-dark shadow-lg"></div>
+                    <div 
+                      className="bg-navy-light rounded-xl p-8 hover-gold-glow shadow-xl cursor-pointer transform hover:scale-105 transition-all duration-300"
+                      onClick={() => handleEducationClick(education)}
+                    >
+                      <h3 className="font-primary text-2xl font-bold text-gold-accent mb-3">
+                        {education.degree}
+                      </h3>
+                      <p className="text-gold mb-3 text-lg">{education.institution}</p>
+                      <div className="text-gold-accent font-semibold">{education.year}</div>
+                      <div className="mt-4 text-gold-accent text-sm opacity-75">
+                        Click để xem chi tiết →
+                      </div>
                     </div>
                   </div>
+                ))
+              ) : (
+                <div className="text-center py-12">
+                  <p className="text-gold-accent text-lg">Chưa có thông tin học vấn nào được thêm.</p>
+                  <p className="text-gold text-sm mt-2">Dữ liệu sẽ được cập nhật qua admin system.</p>
                 </div>
-              ))}
+              )}
             </div>
           </div>
         </div>
@@ -300,19 +634,25 @@ export default function PortfolioContent() {
                 Sở thích cá nhân
               </h3>
               <div className="space-y-6">
-                {sampleInterests.map((interest) => (
-                  <div 
-                    key={interest.id}
-                    className="bg-navy-light rounded-xl p-6 hover-gold-glow shadow-lg cursor-pointer transform hover:scale-105 transition-all duration-300"
-                    onClick={() => handleInterestClick(interest)}
-                  >
-                    <h4 className="text-gold-accent font-bold mb-3 text-lg">{interest.title}</h4>
-                    <p className="text-gold">{interest.description.substring(0, 100)}...</p>
-                    <div className="mt-3 text-gold-accent text-sm opacity-75">
-                      Click để xem chi tiết →
+                {interests.length > 0 ? (
+                  interests.map((interest) => (
+                    <div 
+                      key={interest.id}
+                      className="bg-navy-light rounded-xl p-6 hover-gold-glow shadow-lg cursor-pointer transform hover:scale-105 transition-all duration-300"
+                      onClick={() => handleInterestClick(interest)}
+                    >
+                      <h4 className="text-gold-accent font-bold mb-3 text-lg">{interest.title}</h4>
+                      <p className="text-gold">{interest.description.substring(0, 100)}...</p>
+                      <div className="mt-3 text-gold-accent text-sm opacity-75">
+                        Click để xem chi tiết →
+                      </div>
                     </div>
+                  ))
+                ) : (
+                  <div className="text-center py-8">
+                    <p className="text-gold-accent">Chưa có sở thích nào được thêm.</p>
                   </div>
-                ))}
+                )}
               </div>
             </div>
 
@@ -322,19 +662,25 @@ export default function PortfolioContent() {
                 Hoạt động nổi bật
               </h3>
               <div className="space-y-6">
-                {sampleActivities.map((activity) => (
-                  <div 
-                    key={activity.id}
-                    className="bg-navy-light rounded-xl p-6 hover-gold-glow shadow-lg cursor-pointer transform hover:scale-105 transition-all duration-300"
-                    onClick={() => handleActivityClick(activity)}
-                  >
-                    <h4 className="text-gold-accent font-bold mb-3 text-lg">{activity.title}</h4>
-                    <p className="text-gold">{activity.description.substring(0, 100)}...</p>
-                    <div className="mt-3 text-gold-accent text-sm opacity-75">
-                      Click để xem chi tiết →
+                {activities.length > 0 ? (
+                  activities.map((activity) => (
+                    <div 
+                      key={activity.id}
+                      className="bg-navy-light rounded-xl p-6 hover-gold-glow shadow-lg cursor-pointer transform hover:scale-105 transition-all duration-300"
+                      onClick={() => handleActivityClick(activity)}
+                    >
+                      <h4 className="text-gold-accent font-bold mb-3 text-lg">{activity.title}</h4>
+                      <p className="text-gold">{activity.description.substring(0, 100)}...</p>
+                      <div className="mt-3 text-gold-accent text-sm opacity-75">
+                        Click để xem chi tiết →
+                      </div>
                     </div>
+                  ))
+                ) : (
+                  <div className="text-center py-8">
+                    <p className="text-gold-accent">Chưa có hoạt động nào được thêm.</p>
                   </div>
-                ))}
+                )}
               </div>
             </div>
           </div>
@@ -353,28 +699,35 @@ export default function PortfolioContent() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Blog post cards - Now clickable */}
-            {sampleBlogs.map((blog) => (
-              <div 
-                key={blog.id}
-                className="bg-navy-light rounded-xl p-8 hover-gold-glow shadow-xl transform hover:scale-105 transition-all duration-300 cursor-pointer"
-                onClick={() => handleBlogClick(blog)}
-              >
-                <h3 className="font-primary text-xl font-bold text-gold-accent mb-4">
-                  {blog.title}
-                </h3>
-                <p className="text-gold mb-6">
-                  {blog.excerpt}
-                </p>
-                <div className="flex justify-between items-center">
-                  <span className="text-gold-accent font-semibold">
-                    {new Date(blog.publishDate).toLocaleDateString('vi-VN')}
-                  </span>
-                  <span className="text-gold-accent hover:text-gold transition-colors font-semibold">
-                    Xem thêm →
-                  </span>
+            {blogs.length > 0 ? (
+              blogs.map((blog) => (
+                <div 
+                  key={blog.id}
+                  className="bg-navy-light rounded-xl p-8 hover-gold-glow shadow-xl transform hover:scale-105 transition-all duration-300 cursor-pointer"
+                  onClick={() => handleBlogClick(blog)}
+                >
+                  <h3 className="font-primary text-xl font-bold text-gold-accent mb-4">
+                    {blog.title}
+                  </h3>
+                  <p className="text-gold mb-6">
+                    {blog.excerpt}
+                  </p>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gold-accent font-semibold">
+                      {new Date(blog.publish_date).toLocaleDateString('vi-VN')}
+                    </span>
+                    <span className="text-gold-accent hover:text-gold transition-colors font-semibold">
+                      Xem thêm →
+                    </span>
+                  </div>
                 </div>
+              ))
+            ) : (
+              <div className="col-span-full text-center py-12">
+                <p className="text-gold-accent text-lg">Chưa có bài viết nào được xuất bản.</p>
+                <p className="text-gold text-sm mt-2">Nội dung blog sẽ được cập nhật sớm.</p>
               </div>
-            ))}
+            )}
           </div>
         </div>
       </section>

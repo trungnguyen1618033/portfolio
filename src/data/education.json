@@ -1,0 +1,41 @@
+[
+  {
+    "id": 1,
+    "degree": "Associate Degree of Business English",
+    "institution": "Thu Duc College Of Technology",
+    "year": "2020-2022",
+    "description": "Chuyên ngành Tiếng Anh Thương mại với focus vào giao tiếp kinh doanh quốc tế, đàm phán và dịch thuật chuyên ngành.",
+    "achievements": [
+      "GPA: 3.8/4.0",
+      "Outstanding Student Award",
+      "English Communication Excellence"
+    ],
+    "skills": ["Business English", "Translation", "International Business"]
+  },
+  {
+    "id": 2,
+    "degree": "IELTS Certificate",
+    "institution": "IELTS Official Test Center", 
+    "year": "2022",
+    "description": "Chứng chỉ IELTS với band score cao, demonstrating proficiency in English for academic and professional purposes.",
+    "achievements": [
+      "IELTS Band 7.5+",
+      "Speaking: 8.0",
+      "Writing: 7.5"
+    ],
+    "skills": ["English Proficiency", "Academic Writing", "Professional Communication"]
+  },
+  {
+    "id": 3,
+    "degree": "Chứng chỉ chuyên môn khác",
+    "institution": "Các tổ chức đào tạo pháp lý",
+    "year": "2023-2024", 
+    "description": "Các khóa học và chứng chỉ về pháp luật quốc tế, hợp đồng thương mại và tư vấn pháp lý.",
+    "achievements": [
+      "International Commercial Law Certificate",
+      "Legal Translation Certification",
+      "Corporate Compliance Training"
+    ],
+    "skills": ["International Law", "Contract Law", "Legal Research", "Compliance"]
+  }
+] 

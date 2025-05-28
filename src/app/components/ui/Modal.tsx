@@ -51,30 +51,33 @@ export default function Modal({
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
-      {/* Backdrop */}
+      {/* Transparent Backdrop with blur */}
       <div 
-        className="fixed inset-0 bg-black bg-opacity-75 transition-opacity duration-300 backdrop-blur-sm"
+        className="fixed inset-0 bg-navy-dark/60 backdrop-blur-md transition-all duration-500 ease-out"
         onClick={onClose}
       />
       
       {/* Modal */}
       <div className="flex min-h-full items-center justify-center p-4">
         <div 
-          className={`relative bg-white rounded-xl shadow-2xl transform transition-all duration-300 w-full ${sizeClasses[size]} max-h-[90vh] overflow-hidden`}
+          className={`relative bg-navy-light border-2 border-gold-accent/30 rounded-2xl shadow-2xl transform transition-all duration-500 ease-out w-full ${sizeClasses[size]} max-h-[90vh] overflow-hidden hover-gold-glow`}
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
           {(title || showCloseButton) && (
-            <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-gradient-to-r from-navy-600 to-navy-700">
+            <div className="flex items-center justify-between p-6 border-b border-gold-accent/20 bg-gradient-to-r from-navy-dark to-navy-primary relative">
+              {/* Decorative elements */}
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-gold-accent via-gold to-gold-accent"></div>
+              
               {title && (
-                <h2 className="text-xl font-bold text-white">
+                <h2 className="font-primary text-2xl font-bold text-gold">
                   {title}
                 </h2>
               )}
               {showCloseButton && (
                 <button
                   onClick={onClose}
-                  className="p-2 hover:bg-navy-500 rounded-full transition-colors duration-200 text-white"
+                  className="p-2 hover:bg-gold-accent hover:text-navy-dark rounded-full transition-all duration-300 text-gold-accent border border-gold-accent/30 hover:border-gold-accent hover:scale-110"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -85,9 +88,12 @@ export default function Modal({
           )}
 
           {/* Content */}
-          <div className="overflow-y-auto max-h-[calc(90vh-80px)]">
+          <div className="overflow-y-auto max-h-[calc(90vh-100px)] bg-navy-light">
             {children}
           </div>
+
+          {/* Bottom decorative border */}
+          <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-gold-accent via-gold to-gold-accent opacity-50"></div>
         </div>
       </div>
     </div>
